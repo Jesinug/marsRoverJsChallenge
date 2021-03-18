@@ -2,7 +2,10 @@ let rover = {
   direction: "N",
   x: 0,
   y: 0,
-  travelLog : [0, 0] 
+  travelLog : [{
+    x: 0, 
+    y: 0 
+  }]
   //TODO: hacer manualmente q esta variable guarde la primera
   //orientación del rover
 };
@@ -48,12 +51,8 @@ function turnRight(rover) {
 
 
 function moveForward(rover) {
-  //rover.travelLog.push(`${rover.x}, ${rover.y}`); 
-  //esto es un array de strings, y debe ser un array de objetos
-  rover.travelLog.push({
-    x: rover.x,
-    y: rover.y
-  });
+  //first sprint outcome: rover.travelLog.push(`${rover.x}, ${rover.y}`); 
+  //ToDo: esto es un array de strings, y debe ser un array de objetos
   
   switch (rover.direction) {
     case "N":
@@ -64,30 +63,42 @@ function moveForward(rover) {
       rover.y -= 1;
       break;
     case "E":
-      if (rover.x === 10) {
+      if (rover.x === 9) {
         alert("Grid limit");
         break;
       }
       rover.x += 1;
       break;
+
     case "S":
-      if (rover.y === 10) {
+      if (rover.y === 9) {
         alert("Grid limit");
         break;
       }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.y += 1;
       break;
+
     case "W":
       if (rover.x === 0) {
         alert("Grid limit");
         break;
       }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.x -= 1;
       break;
     default:
   }
+  
   //console.log(rover);
 }
+
 
 //====== Bonus 2======//
 
@@ -99,7 +110,7 @@ function moveBackward(rover) {
   
   switch (rover.direction) {
     case "N":
-      if (rover.y === 10) {
+      if (rover.y === 9) {
         alert("Grid limit");
         break;
       }
@@ -120,7 +131,7 @@ function moveBackward(rover) {
       rover.y -= 1;
       break;
     case "W":
-      if (rover.x === 10) {
+      if (rover.x === 9) {
         alert("Grid limit");
         break;
       }
@@ -130,8 +141,6 @@ function moveBackward(rover) {
   }
   //console.log(rover);
 }
-
-moveBackward(rover);
 
 function commands(someArray) {
   for (let i=0 ;i<=someArray.length-1 ;i++) {
@@ -157,7 +166,6 @@ function commands(someArray) {
 debugger
 let commandString = 'rf3b';
 commands(commandString);
-
 
 
 
