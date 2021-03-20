@@ -1,37 +1,63 @@
-//It.1) Defining Object Rover with direction(N,E,S,W) property
+//Defining Object Rover with direction(N,E,S,W) property
 let rover = {
   direction: "N",
   x: 0,
   y: 0,
-  travelLog: []
+  travelLog: [0, 0]
 };
-
-console.log(`**MarsRover1** \nOriginal position: X/${rover.x} Y/${rover.y} \n\
+//----//
+console.log(`Function commands starting. \nStatus **MarsRover1** \nOriginal position: X/${rover.x} Y/${rover.y} \n\
 Original direction: ${rover.direction}. 
 It's tracking record is the following: ${rover.travelLog}.
 Obstacles:
-Times of reaching boundries:xxxxxxxxx
-MarsRover2 location:xxxxxxxx.
-MarsRover3 location:xxxxxxxx
+Times of reaching boundries:
+MarsRover2 location:
+MarsRover3 location:
 `);
-
+//Building and printing grid
 let grid = [
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', 'Obs', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'Obs', ' '],
+  [' ', ' ', ' ', 'Obs', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', 'Obs', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'Obs', ' ', ' '],
+  ['Obs', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', 'Obs', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', 'Obs', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', 'Obs', ' '],
+  [' ', ' ', ' ', ' ', ' ', 'Obs', ' ', ' ', ' ', ' '],
 ];
 console.log(grid.join('\n') + '\n');
 
+//Declaring function commmands
+function commands(someArray) {
+  for (let i = 0; i <= someArray.length - 1; i++) {
+    switch (someArray[i]) {
+      case "l":
+        turnLeft(rover);
+        break;
+      case "r":
+        turnRight(rover);
+        break;
+      case "f":
+        moveForward(rover);
+        break;
+      case "b":
+        moveBackwards(rover);
+        break;
+      default:
+        alert("unexpected character")
+    }
+  }
+  console.log("Function commands ending");
+}
+
+debugger
+commands('frfff');
+
 /** ====================== CODE =========================--*/
 
-//It.2) Turning
+// Declaring turning functions
 
 //turnLeft
 function turnLeft(rover) {
@@ -73,8 +99,7 @@ function turnRight(rover) {
   console.log("Function turnRight was called");
 }
 
-//It.3) Moving
-//To change: Add properties x and y to object rover
+//Declaring moving functions
 //moveForward function (function of the rover's CURRENT direction)
 function moveForward(rover) {
   switch (rover.direction) {
@@ -85,7 +110,7 @@ function moveForward(rover) {
       }
       if (grid[rover.y - 1][rover.x] === "Obs") {
         alert("Obstacle");
-        console.log(`Obstacle location: ${rover.y -1}, ${rover.x}`);
+        console.log(`Obstacle location: y:${rover.y -1}, x:${rover.x}`);
         break;
       }
       rover.travelLog.push({
@@ -102,7 +127,7 @@ function moveForward(rover) {
       }
       if (grid[rover.y][rover.x + 1] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y}, ${rover.x +1}`);
+        console.log(`Obstacle location: y:${rover.y}, x:${rover.x +1}`);
         break;
       }
       rover.travelLog.push({
@@ -119,7 +144,7 @@ function moveForward(rover) {
       }
       if (grid[rover.y + 1][rover.x] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y +1}, ${rover.x}`);
+        console.log(`Obstacle location: y:${rover.y +1}, x:${rover.x}`);
         break;
       }
       rover.travelLog.push({
@@ -136,7 +161,7 @@ function moveForward(rover) {
       }
       if (grid[rover.y][rover.x - 1] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y}, ${rover.x -1}`);
+        console.log(`Obstacle location: y:${rover.y}, x:${rover.x -1}`);
         break;
       }
       rover.travelLog.push({
@@ -151,9 +176,7 @@ function moveForward(rover) {
 console.log(`Function moveForward called. Current position: y:${rover.y} x:${rover.x}`);
 }
 
-//It.4) Commands
-//Its.5) Tracking
-//Bonus 1: Enforce boundaries (to test)
+//Bonus 1: Enforce boundaries (Done/to test)
 //To Change: add if condition to both move functions
 // moveBackwards function (Bonus 2) --->
 function moveBackwards(rover) {
@@ -165,7 +188,7 @@ function moveBackwards(rover) {
       }
       if (grid[rover.y + 1][rover.x] === "Obs") {
         alert("Obstacle");
-        console.log(`Obstacle location: ${rover.y +1}, ${rover.x}`);
+        console.log(`Obstacle location: y:${rover.y +1}, x:${rover.x}`);
         break;
       }
       rover.travelLog.push({
@@ -182,7 +205,7 @@ function moveBackwards(rover) {
       }
       if (grid[rover.y][rover.x + 1] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y}, ${rover.x -1}`);
+        console.log(`Obstacle location: y:${rover.y}, x:${rover.x -1}`);
         break;
       }
       rover.travelLog.push({
@@ -199,7 +222,7 @@ function moveBackwards(rover) {
       }
       if (grid[rover.y - 1][rover.x] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y -1}, ${rover.x}`);
+        console.log(`Obstacle location: y:${rover.y -1}, x:${rover.x}`);
         break;
       }
       rover.travelLog.push({
@@ -216,7 +239,7 @@ function moveBackwards(rover) {
       }
       if (grid[rover.y][rover.x + 1] === "Obs") {
         alert("Obstacle ahead");
-        console.log(`Obstacle location: ${rover.y}, ${rover.x +1}`);
+        console.log(`Obstacle location: y:${rover.y}, X:${rover.x +1}`);
         break;
       }
       rover.travelLog.push({
@@ -231,29 +254,6 @@ function moveBackwards(rover) {
   console.log(`Function moveBackwards called. Current position: y:${rover.y} x:${rover.x}`);
 }
 
-function commands(someArray) {
-  for (let i = 0; i <= someArray.length - 1; i++) {
-    switch (someArray[i]) {
-      case "l":
-        turnLeft(rover);
-        break;
-      case "r":
-        turnRight(rover);
-        break;
-      case "f":
-        moveForward(rover);
-        break;
-      case "b":
-        moveBackwards(rover);
-        break;
-      default:
-        alert("unexpected command")
-    }
-  }
-  console.log("Function commands was called");
-}
 
-debugger
-commands('frff');
-console.log(`New position: [x:${rover.x}, y:${rover.y}] 
+console.log(`Final position: [y:${rover.y}, x:${rover.x}] 
 - Direction: ${rover.direction}`);
