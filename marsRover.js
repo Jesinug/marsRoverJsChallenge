@@ -1,15 +1,39 @@
+//It.1) Defining Object Rover with direction(N,E,S,W) property
 let rover = {
   direction: "N",
   x: 0,
   y: 0,
-  travelLog : [{
-    x: 0, 
-    y: 0 
-  }]
-  //TODO: hacer manualmente q esta variable guarde la primera
-  //orientación del rover
+  travelLog: []
 };
 
+console.log(`**MarsRover1** \nOriginal position: X/${rover.x} Y/${rover.y} \n\
+Original direction: ${rover.direction}. 
+It's tracking record is the following: ${rover.travelLog}.
+Obstacles:
+Times of reaching boundries:xxxxxxxxx
+MarsRover2 location:xxxxxxxx.
+MarsRover3 location:xxxxxxxx
+`);
+
+let grid = [
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', 'O', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', 'O', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+  [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+];
+console.log(grid.join('\n') + '\n');
+
+/** ====================== CODE =========================--*/
+
+//It.2) Turning
+
+//turnLeft
 function turnLeft(rover) {
   switch (rover.direction) {
     case "N":
@@ -26,10 +50,10 @@ function turnLeft(rover) {
       break;
     default:
   }
-  //console.log(rover);
+  console.log("Function turnLeft was called");
 }
 
-
+//turnRight
 function turnRight(rover) {
   switch (rover.direction) {
     case "N":
@@ -46,33 +70,56 @@ function turnRight(rover) {
       break;
     default:
   }
-  //console.log(rover);
+  console.log("Function turnRight was called");
 }
 
-
+//It.3) Moving
+//To change: Add properties x and y to object rover
+//moveForward function (function of the rover's CURRENT direction)
 function moveForward(rover) {
-  //first sprint outcome: rover.travelLog.push(`${rover.x}, ${rover.y}`); 
-  //ToDo: esto es un array de strings, y debe ser un array de objetos
-  
   switch (rover.direction) {
     case "N":
-      if (rover.y === 0) {
+      if ((rover.y - 1) < 0) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y - 1][rover.x] === "Obs") {
+        alert("Obstacle");
+        console.log(`Obstacle location: ${rover.y -1}, ${rover.x}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.y -= 1;
       break;
+
     case "E":
-      if (rover.x === 9) {
+      if ((rover.x + 1) > 9) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y][rover.x + 1] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y}, ${rover.x +1}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.x += 1;
       break;
 
     case "S":
-      if (rover.y === 9) {
+      if (rover.y > 9) {
         alert("Grid limit");
+        break;
+      }
+      if (grid[rover.y + 1][rover.x] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y +1}, ${rover.x}`);
         break;
       }
       rover.travelLog.push({
@@ -83,8 +130,13 @@ function moveForward(rover) {
       break;
 
     case "W":
-      if (rover.x === 0) {
+      if (rover.x < 0) {
         alert("Grid limit");
+        break;
+      }
+      if (grid[rover.y][rover.x - 1] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y}, ${rover.x -1}`);
         break;
       }
       rover.travelLog.push({
@@ -93,97 +145,115 @@ function moveForward(rover) {
       });
       rover.x -= 1;
       break;
+
     default:
   }
-  
-  //console.log(rover);
+console.log(`Function moveForward called. Current position: y:${rover.y} x:${rover.x}`);
 }
 
-
-//====== Bonus 2======//
-
-function moveBackward(rover) {
-  rover.travelLog.push({
-    x: rover.x,
-    y: rover.y
-  });
-  
+//It.4) Commands
+//Its.5) Tracking
+//Bonus 1: Enforce boundaries (to test)
+//To Change: add if condition to both move functions
+// moveBackwards function (Bonus 2) --->
+function moveBackwards(rover) {
   switch (rover.direction) {
     case "N":
-      if (rover.y === 9) {
+      if ((rover.y + 1) > 9) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y + 1][rover.x] === "Obs") {
+        alert("Obstacle");
+        console.log(`Obstacle location: ${rover.y +1}, ${rover.x}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.y += 1;
       break;
+
     case "E":
-      if (rover.x === 0) {
+      if ((rover.x - 1) < 0) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y][rover.x + 1] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y}, ${rover.x -1}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.x -= 1;
       break;
+
     case "S":
-      if (rover.y === 0) {
+      if ((rover.y - 1) < 0) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y - 1][rover.x] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y -1}, ${rover.x}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.y -= 1;
       break;
+
     case "W":
-      if (rover.x === 9) {
+      if ((rover.x + 1) > 9) {
         alert("Grid limit");
         break;
       }
+      if (grid[rover.y][rover.x + 1] === "Obs") {
+        alert("Obstacle ahead");
+        console.log(`Obstacle location: ${rover.y}, ${rover.x +1}`);
+        break;
+      }
+      rover.travelLog.push({
+        x: rover.x,
+        y: rover.y
+      });
       rover.x += 1;
       break;
+
     default:
   }
-  //console.log(rover);
+  console.log(`Function moveBackwards called. Current position: y:${rover.y} x:${rover.x}`);
 }
 
 function commands(someArray) {
-  for (let i=0 ;i<=someArray.length-1 ;i++) {
+  for (let i = 0; i <= someArray.length - 1; i++) {
     switch (someArray[i]) {
-      case "l" :
+      case "l":
         turnLeft(rover);
         break;
-      case "r" :
+      case "r":
         turnRight(rover);
         break;
-      case "f" :
+      case "f":
         moveForward(rover);
         break;
-      case "b" :
-        moveBackward(rover);
+      case "b":
+        moveBackwards(rover);
         break;
-        default :  
+      default:
         alert("unexpected command")
     }
   }
-  console.log(rover)
+  console.log("Function commands was called");
 }
+
 debugger
-let commandString = 'rf3b';
-commands(commandString);
-
-
-
-//todo linea90: debería lograr que este comando se lograr cada vez que invoco la 
-//función commands
-/*
-turnLeft(rover);
-
-/* 
-//jueguito: de 22N a 34E
-  console.log(`Initial rover location is ${rover.x} and ${rover.y} with direction ${rover.direction}`);
-
-turnRight(rover);
-moveForward(rover);
-turnRight(rover);
-moveForward(rover);
-moveForward(rover);
-turnLeft(rover);
-
-  console.log(`Final rover location is ${rover.x} and ${rover.y} with direction ${rover.direction}`);
-  */
+commands('frff');
+console.log(`New position: [x:${rover.x}, y:${rover.y}] 
+- Direction: ${rover.direction}`);
